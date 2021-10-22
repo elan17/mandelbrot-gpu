@@ -1,4 +1,4 @@
-from backends.cpu import get_render
+from backends.cuda_back import get_render
 import numpy as np
 import cv2
 
@@ -13,8 +13,7 @@ def initialize_array(left_right: complex, zoom: float, shape: tuple, dtype=np.co
 
 
 if __name__ == "__main__":
-    array = initialize_array(complex(-2, -2), np.array(0.01), (400, 400))
-    print("Hola")
+    array = initialize_array(complex(-2, -2), np.array(0.004), (1000, 1000))
     array = get_render(array, 255)
     cv2.imshow("", array)
     cv2.waitKey()
