@@ -1,6 +1,26 @@
 import numpy as np
-import tqdm
 import time
+
+import tqdm
+import cv2
+
+from backends.backend import Backend
+
+class CPUBackend(Backend):
+
+    def __init__(self, initial_array):
+        self.array = initial_array
+
+    def update(self):
+        cv2.imshow("", get_render(self.array, 100))
+        cv2.waitKey(1)
+    
+    def move(self, d):
+        self.array += d
+    
+    def zoom(self, ratio):
+        # TODO
+        pass
 
 def get_render(array: np.ndarray, iterations: int):
     dtype = array.dtype
