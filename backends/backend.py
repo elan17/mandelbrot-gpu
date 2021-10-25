@@ -13,7 +13,7 @@ class Backend:
         pass
 
     @abstractmethod
-    def move(self, vector: tuple):
+    def move(self, d: complex):
         pass
 
     @abstractmethod
