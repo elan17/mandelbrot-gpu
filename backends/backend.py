@@ -5,7 +5,7 @@ import numpy as np
 class Backend:
 
     @abstractmethod
-    def __init__(self, pos: tuple, zoom: float, shape: tuple):
+    def __init__(self, pos: tuple, zoom: float, shape: tuple, iterations: int):
         pass
 
     @abstractmethod
