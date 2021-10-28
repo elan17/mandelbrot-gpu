@@ -5,7 +5,7 @@ import numpy as np
 class Backend:
 
     @abstractmethod
-    def __init__(self, initial_array: np.ndarray):
+    def __init__(self, pos: tuple, zoom: float, shape: tuple):
         pass
 
     @abstractmethod
