@@ -8,12 +8,13 @@ from backends.backend import Backend
 
 class CPUBackend(Backend):
 
-    def __init__(self, initial_array):
-        self.array = initial_array
+    def __init__(self, pos, zoom, shape, iterations: int):
+        self.array = initialize_array(pos, zoom, shape)
+        self.iterations = iterations
 
     def update(self):
-        cv2.imshow("", get_render(self.array, 100))
-        cv2.waitKey(1)
+        cv2.imshow("", get_render(self.array, self.iterations))
+        return cv2.waitKey(1)
     
     def move(self, d):
         self.array += d
@@ -21,6 +22,13 @@ class CPUBackend(Backend):
     def zoom(self, ratio):
         # TODO
         pass
+
+def initialize_array(left_right: complex, zoom: float, shape: tuple, dtype=np.complex256):
+    array = np.empty(shape, dtype=dtype)
+    for y, row in enumerate(array):
+        for x, column in enumerate(row):
+            array[y][x] = left_right + complex(x, y)*zoom
+    return array
 
 def get_render(array: np.ndarray, iterations: int):
     dtype = array.dtype
