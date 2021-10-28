@@ -3,15 +3,19 @@
 
 typedef pycuda::complex<double> cmplx;
 
-extern "C" __global__ void compute(cmplx *Z, cmplx *C, uint8_t *Iter,
-                                   uint16_t height){
+extern "C" __global__ void compute(uint8_t *Iter, cmplx pos,
+                                   double zoom, uint8_t iterations, 
+                                   uint8_t length){
     uint i = (blockIdx.x * blockDim.x) + threadIdx.x;
     uint j = (blockIdx.y * blockDim.y) + threadIdx.y;
-    int idx = i*height + j;
-    for (int i=0; i < 100; i++){
-        Z[idx] = Z[idx] * Z[idx] + C[idx];
-        double bounded_d = Z[idx].real() * Z[idx].real() 
-                         + Z[idx].imag() * Z[idx].imag();
+    uint idx = i + j*length;
+    Iter[idx] = 0;
+    cmplx Z = cmplx(0.0, 0.0);
+    cmplx C = pos + cmplx(i, j) * zoom;
+    for (int i=0; i < iterations; i++){
+        Z = Z * Z + C;
+        double bounded_d = Z.real() * Z.real() 
+                         + Z.imag() * Z.imag();
         bool bounded = bounded_d < 2.0;
         Iter[idx] += bounded;
     }
